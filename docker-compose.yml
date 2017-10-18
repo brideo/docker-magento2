@@ -54,11 +54,13 @@ services:
 
   cli:
     hostname: cli.magento2.docker
-    image: meanbee/magento2-php:7.0-cli
+    build: ./7.0-cli
     links:
       - db
     volumes:
-      - ~/.composer/cache:/root/.composer/cache
+      - ~/.composer:/root/.composer
+      - ~/.ssh/id_rsa:/root/.ssh/id_rsa
+      - ~/.ssh/id_rsa.pub:/root/.ssh/id_rsa.pub
     volumes_from:
       - appdata
     env_file:
@@ -79,7 +81,8 @@ services:
       - M2SETUP_ADMIN_USER=admin
       - M2SETUP_ADMIN_PASSWORD=password1
       - M2SETUP_VERSION=2.1.*
-      # - M2SETUP_USE_SAMPLE_DATA=true
+      - M2SETUP_USE_SAMPLE_DATA=true
+      - M2SETUP_USE_DEVELOP=true
 
   cron:
     image: meanbee/magento2-php:7.0-cli

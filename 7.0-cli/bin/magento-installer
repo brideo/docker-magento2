@@ -12,6 +12,13 @@ fi
 
 MAGENTO_COMMAND="magento-command"
 
+if [ "$M2SETUP_USE_DEVELOP" = "true" ]; then
+    echo "Cloning development magento into $MAGENTO_ROOT."
+    git clone git@github.com:magento/magento2.git $MAGENTO_ROOT;
+fi; # else redundant because composer.json exists
+
+echo "Cloning development magento into $MAGENTO_ROOT."
+
 if [ ! -f "$MAGENTO_ROOT/composer.json" ]; then
     echo "Creating Magento ($M2SETUP_VERSION) project from composer"
 
@@ -32,6 +39,7 @@ else
     echo "Magento installation found in $MAGENTO_ROOT, installing composer dependencies"
     composer --working-dir=$MAGENTO_ROOT install
 fi
+
 
 chown -R www-data:www-data $MAGENTO_ROOT
 
